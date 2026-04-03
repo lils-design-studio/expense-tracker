@@ -101,7 +101,7 @@
             inset: 0; 
             background: var(--bg); 
             z-index: 100; 
-            padding: 20px; 
+            padding: 0 20px 20px 20px; /* Top padding is handled by modal-content */
             overflow-y: auto;
         }
         
@@ -110,23 +110,24 @@
             max-width: 400px; 
             margin: 0 auto; 
             position: relative; 
-            /* This pushes the "Category Details" title down below the Island */
-            padding-top: calc(env(safe-area-inset-top) + 25px); 
+            /* Pushes everything down below the Dynamic Island + 30px extra room */
+            padding-top: calc(env(safe-area-inset-top) + 30px);
             padding-bottom: 50px;
         }
 
         /* 3. The "X" button */
         .close-btn { 
-            position: absolute; 
-            /* This moves the "X" down so it's level with your new padding */
-            top: calc(env(safe-area-inset-top) + 15px); 
+             position: absolute; 
+            /* Moves the button down exactly in line with your new padding */
+            top: calc(env(safe-area-inset-top) + 20px); 
             right: 0; 
-            padding: 10px; 
+            padding: 15px; /* Bigger hit-box for your finger */
             cursor: pointer; 
             color: var(--text-sub); 
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 101; /* Keeps it on top of everything */
         }
 
         /* Picker States */
