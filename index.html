@@ -94,13 +94,40 @@
         }
         .icon-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
 
-        /* Modals */
+        /* 1. The full-screen overlay */
         .modal { 
-            display: none; position: fixed; inset: 0; background: var(--bg); 
-            z-index: 100; padding: 20px; overflow-y: auto;
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            background: var(--bg); 
+            z-index: 100; 
+            padding: 20px; 
+            overflow-y: auto;
         }
-        .modal-content { max-width: 400px; margin: 0 auto; position: relative; padding-top: 20px; }
-        .close-btn { position: absolute; top: 0; right: 0; padding: 10px; cursor: pointer; color: var(--text-sub); }
+        
+        /* 2. The container inside the modal */
+        .modal-content { 
+            max-width: 400px; 
+            margin: 0 auto; 
+            position: relative; 
+            /* This pushes the "Category Details" title down below the Island */
+            padding-top: calc(env(safe-area-inset-top) + 25px); 
+            padding-bottom: 50px;
+        }
+
+        /* 3. The "X" button */
+        .close-btn { 
+            position: absolute; 
+            /* This moves the "X" down so it's level with your new padding */
+            top: calc(env(safe-area-inset-top) + 15px); 
+            right: 0; 
+            padding: 10px; 
+            cursor: pointer; 
+            color: var(--text-sub); 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
         /* Picker States */
         .picker-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 20px; }
