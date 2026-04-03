@@ -32,8 +32,16 @@
 
         .container { max-width: 450px; margin: 0 auto; }
         
-        header { margin-bottom: 30px; margin-top: 20px; }
-        h1 { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.5px; margin: 0; }
+        header { display: flex; justify-content: 
+            space-between; align-items: center; 
+            margin-bottom: 30px; 
+            /* This handles the Dynamic Island + adds 20px of extra "vibe" room */
+            padding-top: calc(env(safe-area-inset-top) + 20px); 
+            margin-top: 0; 
+}
+
+        h1 { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.5px; margin: 0; /* Ensures title stays visible if pushed down */ line-height: 1.2; 
+}
 
         /* Budget Bars */
         .budget-row { 
@@ -118,7 +126,7 @@
 <body>
 
 <div class="container">
-    <header style="padding-top: 24px;">
+    <header>
         <h1>Expense Tracker</h1>
     </header>
 
