@@ -5,35 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- Non-money themed Favicon (Checklist/Tracking) -->
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2645/2645856.png">
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2645/2645856.png">
+    <!-- Notepad and Pen Favicon -->
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/564/564444.png">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/564/564444.png">
     <title>Expense Tracker</title>
     
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     
     <style>
         :root {
-            --bg: #fdfaf7; /* Cream Background */
+            --bg: #fdfaf7; /* Original Cream Background */
             --card: #ffffff;
             --text-main: #1a1a1a;
             --text-sub: #737373;
             --border: #f0ede9;
             --ocean-blue: #0ea5e9;
-            --danger-soft: #991b1b; /* Industry standard dark red */
+            --danger-soft: #991b1b;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
-            font-family: -apple-system, system-ui, BlinkMacSystemFont, sans-serif; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             background: var(--bg); color: var(--text-main); margin: 0; padding: 20px;
             line-height: 1.5; padding-bottom: 100px;
         }
 
         .container { max-width: 450px; margin: 0 auto; }
         
-        header { margin-bottom: 30px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center; }
-        h1 { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px; margin: 0; }
+        header { margin-bottom: 30px; margin-top: 20px; }
+        h1 { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.5px; margin: 0; }
 
         /* Budget Bars */
         .budget-row { 
@@ -43,11 +43,11 @@
         }
         .budget-info { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 10px; }
         .budget-name { font-weight: 700; font-size: 0.95rem; }
-        .budget-values { font-size: 0.85rem; font-weight: 600; }
-        .budget-values span { color: var(--text-sub); font-weight: 400; }
+        .budget-values { font-size: 0.85rem; font-weight: 700; }
+        .budget-values span { color: var(--text-sub); font-weight: 400; font-size: 0.75rem; }
         
         .progress-bg { height: 8px; background: #f0f0f0; border-radius: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        .progress-fill { height: 100%; transition: width 1s ease-in-out; }
 
         /* Forms */
         .card { background: var(--card); border-radius: 24px; padding: 24px; border: 1px solid var(--border); margin-bottom: 20px; }
@@ -55,10 +55,10 @@
         
         input, select { 
             width: 100%; padding: 14px; border-radius: 14px; border: 1px solid var(--border);
-            font-size: 1rem; margin-bottom: 16px; background: #fff; outline: none;
+            font-size: 1rem; margin-bottom: 12px; background: #fff; outline: none;
         }
 
-        .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
         .tag-pill { 
             background: #fff; border: 1px solid var(--border); padding: 6px 12px; 
             border-radius: 100px; font-size: 0.75rem; cursor: pointer; color: var(--text-sub);
@@ -68,8 +68,9 @@
             width: 100%; padding: 16px; border-radius: 16px; border: none;
             background: var(--ocean-blue); color: white; font-weight: 700; font-size: 1rem;
         }
+        button.secondary { background: #f0f0f0; color: var(--text-main); margin-top: 10px; }
 
-        /* Recent Activity List Style */
+        /* Recent Activity */
         .activity-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; margin-top: 30px; }
         .activity-item { 
             display: flex; justify-content: space-between; align-items: center;
@@ -82,9 +83,8 @@
         
         .icon-btn { 
             background: none; border: none; padding: 5px; cursor: pointer; 
-            display: flex; align-items: center; opacity: 0.4;
+            display: flex; align-items: center; opacity: 0.4; color: var(--text-sub);
         }
-        .icon-btn:hover { opacity: 1; }
         .icon-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
 
         /* Modals */
@@ -92,7 +92,7 @@
             display: none; position: fixed; inset: 0; background: var(--bg); 
             z-index: 100; padding: 20px; overflow-y: auto;
         }
-        .modal-content { max-width: 400px; margin: 0 auto; position: relative; padding-top: 40px; }
+        .modal-content { max-width: 400px; margin: 0 auto; position: relative; padding-top: 20px; }
         .close-btn { position: absolute; top: 0; right: 0; padding: 10px; cursor: pointer; color: var(--text-sub); }
 
         /* Picker States */
@@ -101,19 +101,16 @@
             aspect-ratio: 1; border-radius: 12px; border: 2px solid transparent; 
             display: flex; align-items: center; justify-content: center; cursor: pointer; background: #fff;
         }
-        .pick-item.active { border-color: var(--ocean-blue); box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ocean-blue); }
+        .pick-item.active { border-color: var(--ocean-blue); background: #fff; }
 
-        /* Data & Sync Buttons (Restore from V1) */
-        .sync-section { margin-top: 50px; padding: 30px 0; border-top: 1px solid var(--border); }
-        .sync-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .sync-grid button { 
-            padding: 15px; border-radius: 16px; border: 1px solid var(--border); 
-            background: white; font-weight: 700; font-size: 0.85rem; color: var(--text-main);
+        /* Data & Sync (Restored Exactly from V1 Addition) */
+        .sync-section { margin-top: 40px; padding: 20px; border-top: 2px dashed var(--border); text-align: center; }
+        .sync-btns { display: flex; gap: 10px; margin-top: 10px; }
+        .sync-btns button { 
+            flex: 1; padding: 10px; font-size: 0.8rem; border-radius: 10px; 
+            background: #f0f0f0; border: none; font-weight: 700; color: var(--text-main);
         }
-        .btn-text-del { 
-            width: 100%; background: none; border: none; color: var(--danger-soft); 
-            font-weight: 700; padding: 20px; font-size: 0.85rem; cursor: pointer;
-        }
+        .btn-text-del { background: none; border: none; color: var(--danger-soft); font-weight: 700; cursor: pointer; padding: 10px; }
 
         .pagination { display: flex; justify-content: center; gap: 20px; align-items: center; margin-top: 20px; }
     </style>
@@ -123,24 +120,22 @@
 <div class="container">
     <header>
         <h1>Expense Tracker</h1>
-        <button onclick="openWeeklyLog()" style="background:none; border:none; font-size:0.8rem; color:var(--ocean-blue); font-weight:600;">Weekly Log</button>
     </header>
 
     <!-- Budget Bars -->
     <div id="budget-stack" class="budget-stack"></div>
 
-    <button class="primary" style="background:#f0ede9; color:#1a1a1a; margin-bottom:30px;" onclick="openBudgetModal()">+ Create Category</button>
-
-    <!-- Add Expense -->
+    <!-- Add Expense Form -->
     <div class="card">
         <label>Amount</label>
         <input type="number" id="exp-amount" placeholder="0.00" inputmode="decimal">
 
         <label>Description</label>
-        <input type="text" id="exp-note" placeholder="What was it for?">
+        <input type="text" id="exp-note" placeholder="Note...">
         
         <label>Quick Tags</label>
         <div id="quick-tags" class="tag-cloud"></div>
+        <input type="text" id="new-tag-input" placeholder="Add custom tag (Press Enter)" style="font-size: 0.8rem; padding: 8px; margin-bottom: 20px;">
 
         <label>Category</label>
         <select id="exp-category"></select>
@@ -159,24 +154,27 @@
     <div id="activity-list"></div>
     <div id="pagination-controls" class="pagination"></div>
 
-    <!-- Data & Sync (Restored Style) -->
+    <!-- Create Category Button (Moved below history) -->
+    <button class="primary" style="background:#f0ede9; color:#1a1a1a; margin-top:30px;" onclick="openBudgetModal()">+ Create Category</button>
+
+    <!-- Sync Section (Restored V1 Style) -->
     <div class="sync-section">
-        <label style="text-align:center; display:block">Manage Data</label>
-        <div class="sync-grid">
+        <label>Data & Sync</label>
+        <div class="sync-btns">
             <button onclick="exportToCSV()">Export CSV</button>
             <button onclick="exportBackup()">Backup File</button>
-            <button onclick="document.getElementById('importFile').click()">Restore Data</button>
-            <button onclick="resetAll()" style="color:var(--danger-soft)">Reset App</button>
+            <button onclick="document.getElementById('importFile').click()">Restore</button>
         </div>
         <input type="file" id="importFile" style="display:none" onchange="importBackup(event)" accept=".json">
+        <button class="btn-text-del" onclick="resetAll()" style="margin-top:15px">Clear All Data</button>
     </div>
 </div>
 
-<!-- Category Modal -->
+<!-- Category Detail Modal -->
 <div id="budgetModal" class="modal">
     <div class="modal-content">
         <div class="close-btn" onclick="closeModal()">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="12"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </div>
         
         <h2 id="modal-title" style="margin-top:0">Category Details</h2>
@@ -187,18 +185,17 @@
         <div style="margin-top:30px; border-top: 1px solid var(--border); padding-top:20px;">
             <label>Name</label>
             <input type="text" id="cat-name">
-            
             <label>Weekly Limit ($)</label>
             <input type="number" id="cat-limit" inputmode="decimal">
-            
             <label>Color</label>
             <div class="picker-grid" id="color-picker"></div>
-            
             <label>Icon</label>
             <div class="picker-grid" id="icon-picker"></div>
             
             <button class="primary" onclick="saveBudget()">Save Changes</button>
-            <button class="btn-text-del" id="delete-btn" onclick="deleteBudget()">Delete Category</button>
+            <div style="text-align: center; margin-top: 10px;">
+                <button class="btn-text-del" id="delete-btn" onclick="deleteBudget()">Delete Category</button>
+            </div>
         </div>
     </div>
 </div>
@@ -210,6 +207,7 @@
     let state = {
         budgets: [],
         expenses: [],
+        customTags: [],
         lastWeeklyReset: null,
         selectedColor: COLORS[0],
         selectedIcon: ICONS[0],
@@ -217,8 +215,9 @@
     };
 
     function init() {
-        const saved = localStorage.getItem('expense_tracker_v5');
+        const saved = localStorage.getItem('expense_tracker_v6');
         if (saved) state = JSON.parse(saved);
+        if (!state.customTags) state.customTags = [];
         
         setupPickers();
         checkTimeframes();
@@ -232,13 +231,24 @@
                 save();
             }
         });
+
+        document.getElementById('new-tag-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const val = this.value.trim();
+                if (val) {
+                    const tag = val.startsWith('#') ? val : '#' + val;
+                    if (!state.customTags.includes(tag)) state.customTags.push(tag);
+                    this.value = '';
+                    save(); renderQuickTags();
+                }
+            }
+        });
     }
 
     function checkTimeframes() {
         const now = new Date();
         const lastReset = state.lastWeeklyReset ? new Date(state.lastWeeklyReset) : now;
         const weeksPassed = Math.floor((now - lastReset) / (1000 * 60 * 60 * 24 * 7));
-
         if (weeksPassed > 0 || !state.lastWeeklyReset) {
             state.budgets.forEach(b => b.balance = Number(b.balance) + (Number(b.limit) * (weeksPassed || 1)));
             state.lastWeeklyReset = now.toISOString();
@@ -246,17 +256,13 @@
         }
     }
 
-    // --- Core Logic ---
-
     function addExpense() {
         const amt = parseFloat(document.getElementById('exp-amount').value);
         const catId = parseInt(document.getElementById('exp-category').value);
         const note = document.getElementById('exp-note').value;
         if (!amt || !catId) return;
-
         state.expenses.unshift({ id: Date.now(), amt, catId, note, date: new Date().toISOString() });
         state.budgets.find(b => b.id === catId).balance -= amt;
-
         document.getElementById('exp-amount').value = '';
         document.getElementById('exp-note').value = '';
         save(); renderAll();
@@ -264,11 +270,10 @@
 
     function deleteExpense(id) {
         if (!confirm("Delete entry?")) return;
-        const idx = state.expenses.findIndex(e => e.id === id);
-        const exp = state.expenses[idx];
+        const exp = state.expenses.find(e => e.id === id);
         const cat = state.budgets.find(b => b.id === exp.catId);
         if (cat) cat.balance += exp.amt;
-        state.expenses.splice(idx, 1);
+        state.expenses = state.expenses.filter(e => e.id !== id);
         save(); renderAll();
     }
 
@@ -277,17 +282,13 @@
         const newAmt = prompt("Edit Amount:", exp.amt);
         if (newAmt === null) return;
         const newNote = prompt("Edit Description:", exp.note);
-        
         const cat = state.budgets.find(b => b.id === exp.catId);
         cat.balance += exp.amt;
         exp.amt = parseFloat(newAmt);
         exp.note = newNote;
         cat.balance -= exp.amt;
-        
         save(); renderAll();
     }
-
-    // --- Rendering ---
 
     function renderAll() {
         renderBudgets();
@@ -301,17 +302,13 @@
         const stack = document.getElementById('budget-stack');
         stack.innerHTML = state.budgets.map(b => {
             const perc = Math.max(0, Math.min(100, (b.balance / b.limit) * 100));
-            return `
-                <div class="budget-row" onclick="openBudgetModal(${b.id})">
-                    <div class="budget-info">
-                        <div class="budget-name">${b.icon} ${b.name}</div>
-                        <div class="budget-values">$${b.balance.toFixed(0)} <span>/ $${b.limit}</span></div>
-                    </div>
-                    <div class="progress-bg">
-                        <div class="progress-fill" style="width: ${perc}%; background: ${b.color}"></div>
-                    </div>
+            return `<div class="budget-row" onclick="openBudgetModal(${b.id})">
+                <div class="budget-info">
+                    <div class="budget-name">${b.icon} ${b.name}</div>
+                    <div class="budget-values">$${b.balance.toFixed(0)} <span>/ $${b.limit}</span></div>
                 </div>
-            `;
+                <div class="progress-bg"><div class="progress-fill" style="width: ${perc}%; background: ${b.color}"></div></div>
+            </div>`;
         }).join('');
     }
 
@@ -319,59 +316,41 @@
         const filterId = document.getElementById('filter-cat').value;
         const filtered = state.expenses.filter(e => filterId === 'all' || e.catId == filterId);
         const slice = filtered.slice(page * 7, (page * 7) + 7);
-        
         document.getElementById('activity-list').innerHTML = slice.map(e => {
             const cat = state.budgets.find(b => b.id === e.catId);
             const desc = e.note.replace(/#\w+/g, '').trim() || 'Expense';
             const tags = (e.note.match(/#\w+/g) || []).map(t => `<span style="color:var(--ocean-blue); margin-right:5px">${t}</span>`).join('');
-            return `
-                <div class="activity-item">
-                    <div class="act-main">
-                        <div class="act-desc">${desc}</div>
-                        <div class="act-meta">${cat ? cat.name : 'Category'} • ${new Date(e.date).toLocaleDateString()}</div>
-                        <div style="font-size:0.7rem; margin-top:4px">${tags}</div>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <div class="act-amt">$${e.amt.toFixed(2)}</div>
-                        <button class="icon-btn" onclick="editExpense(${e.id})"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
-                        <button class="icon-btn" onclick="deleteExpense(${e.id})"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
-                    </div>
+            return `<div class="activity-item">
+                <div class="act-main">
+                    <div class="act-desc">${desc}</div>
+                    <div class="act-meta">${cat ? cat.name : 'Category'} • ${new Date(e.date).toLocaleDateString()}</div>
+                    <div style="font-size:0.7rem; margin-top:4px">${tags}</div>
                 </div>
-            `;
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div class="act-amt">$${e.amt.toFixed(2)}</div>
+                    <button class="icon-btn" onclick="editExpense(${e.id})"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                    <button class="icon-btn" onclick="deleteExpense(${e.id})"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                </div>
+            </div>`;
         }).join('');
-
-        document.getElementById('pagination-controls').innerHTML = `
-            <button onclick="renderHistory(${page-1})" ${page === 0 ? 'style="opacity:0"' : ''} class="tag-pill">Prev</button>
-            <span style="font-size:0.8rem">Page ${page + 1}</span>
-            <button onclick="renderHistory(${page+1})" ${(page+1)*7 >= filtered.length ? 'style="opacity:0"' : ''} class="tag-pill">Next</button>
-        `;
+        document.getElementById('pagination-controls').innerHTML = `<button onclick="renderHistory(${page-1})" ${page === 0 ? 'style="opacity:0"' : ''} class="tag-pill">Prev</button><span style="font-size:0.8rem">Page ${page + 1}</span><button onclick="renderHistory(${page+1})" ${(page+1)*7 >= filtered.length ? 'style="opacity:0"' : ''} class="tag-pill">Next</button>`;
     }
 
     function renderQuickTags() {
         const counts = {};
         state.expenses.forEach(e => (e.note.match(/#\w+/g) || []).forEach(t => counts[t] = (counts[t] || 0) + 1));
-        const top = Object.entries(counts).sort((a,b) => b[1] - a[1]).slice(0, 8).map(i => i[0]);
-        document.getElementById('quick-tags').innerHTML = top.map(t => `<div class="tag-pill" onclick="appendTag('${t}')">${t}</div>`).join('');
+        const top = Object.entries(counts).sort((a,b) => b[1] - a[1]).slice(0, 5).map(i => i[0]);
+        const allTags = Array.from(new Set([...top, ...state.customTags]));
+        document.getElementById('quick-tags').innerHTML = allTags.map(t => `<div class="tag-pill" onclick="appendTag('${t}')">${t}</div>`).join('');
     }
-
-    // --- Helpers ---
 
     function setupPickers() {
         document.getElementById('color-picker').innerHTML = COLORS.map(c => `<div class="pick-item ${state.selectedColor === c ? 'active' : ''}" style="background:${c}" onclick="selectColor('${c}', this)"></div>`).join('');
         document.getElementById('icon-picker').innerHTML = ICONS.map(i => `<div class="pick-item ${state.selectedIcon === i ? 'active' : ''}" onclick="selectIcon('${i}', this)">${i}</div>`).join('');
     }
 
-    function selectColor(c, el) {
-        state.selectedColor = c;
-        document.querySelectorAll('#color-picker .pick-item').forEach(i => i.classList.remove('active'));
-        el.classList.add('active');
-    }
-
-    function selectIcon(i, el) {
-        state.selectedIcon = i;
-        document.querySelectorAll('#icon-picker .pick-item').forEach(i => i.classList.remove('active'));
-        el.classList.add('active');
-    }
+    function selectColor(c, el) { state.selectedColor = c; document.querySelectorAll('#color-picker .pick-item').forEach(i => i.classList.remove('active')); el.classList.add('active'); }
+    function selectIcon(i, el) { state.selectedIcon = i; document.querySelectorAll('#icon-picker .pick-item').forEach(i => i.classList.remove('active')); el.classList.add('active'); }
 
     function openBudgetModal(id = null) {
         document.getElementById('budgetModal').style.display = 'block';
@@ -380,18 +359,14 @@
             document.getElementById('edit-id').value = b.id;
             document.getElementById('cat-name').value = b.name;
             document.getElementById('cat-limit').value = b.limit;
-            state.selectedColor = b.color;
-            state.selectedIcon = b.icon;
+            state.selectedColor = b.color; state.selectedIcon = b.icon;
             setupPickers();
             const catAct = state.expenses.filter(e => e.catId == id).slice(0, 3);
             document.getElementById('category-activity-view').innerHTML = `<label>Category Recent</label>` + catAct.map(e => `<div style="display:flex; justify-content:space-between; font-size:0.9rem; padding:10px 0; border-bottom:1px solid var(--border)"><span>${e.note}</span><b>$${e.amt}</b></div>`).join('');
             document.getElementById('delete-btn').style.display = 'block';
         } else {
-            document.getElementById('edit-id').value = '';
-            document.getElementById('cat-name').value = '';
-            document.getElementById('cat-limit').value = '';
-            document.getElementById('category-activity-view').innerHTML = '';
-            document.getElementById('delete-btn').style.display = 'none';
+            document.getElementById('edit-id').value = ''; document.getElementById('cat-name').value = ''; document.getElementById('cat-limit').value = '';
+            document.getElementById('category-activity-view').innerHTML = ''; document.getElementById('delete-btn').style.display = 'none';
         }
     }
 
@@ -408,16 +383,10 @@
         closeModal(); save(); renderAll();
     }
 
-    function deleteBudget() {
-        if(confirm("Delete Category?")) {
-            state.budgets = state.budgets.filter(b => b.id != document.getElementById('edit-id').value);
-            closeModal(); save(); renderAll();
-        }
-    }
-
+    function deleteBudget() { if(confirm("Delete Category?")) { state.budgets = state.budgets.filter(b => b.id != document.getElementById('edit-id').value); closeModal(); save(); renderAll(); } }
     function closeModal() { document.getElementById('budgetModal').style.display = 'none'; }
     function appendTag(t) { document.getElementById('exp-note').value += ` ${t} `; }
-    function save() { localStorage.setItem('expense_tracker_v5', JSON.stringify(state)); }
+    function save() { localStorage.setItem('expense_tracker_v6', JSON.stringify(state)); }
     function resetAll() { if(confirm("Clear all data?")) { localStorage.clear(); location.reload(); } }
 
     function exportToCSV() {
@@ -425,16 +394,8 @@
         state.expenses.forEach(e => csv += `${new Date(e.date).toLocaleDateString()},${(state.budgets.find(b => b.id === e.catId)||{}).name},${e.amt},"${e.note}"\n`);
         const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'})); a.download = 'expenses.csv'; a.click();
     }
-
-    function exportBackup() {
-        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(state)], {type:'application/json'})); a.download = 'backup.json'; a.click();
-    }
-
-    function importBackup(e) {
-        const reader = new FileReader();
-        reader.onload = (event) => { state = JSON.parse(event.target.result); save(); location.reload(); };
-        reader.readAsText(e.target.files[0]);
-    }
+    function exportBackup() { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(state)], {type:'application/json'})); a.download = 'backup.json'; a.click(); }
+    function importBackup(e) { const reader = new FileReader(); reader.onload = (event) => { state = JSON.parse(event.target.result); save(); location.reload(); }; reader.readAsText(e.target.files[0]); }
 
     init();
 </script>
