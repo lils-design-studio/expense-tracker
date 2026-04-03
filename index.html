@@ -174,7 +174,9 @@
 <div id="budgetModal" class="modal">
     <div class="modal-content">
         <div class="close-btn" onclick="closeModal()">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="12"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="12"></line>
+               <!-- <line x1="6" y1="6" x2="18" y2="18"></line> -->
+            </svg>
         </div>
         
         <h2 id="modal-title" style="margin-top:0">Category Details</h2>
@@ -193,7 +195,7 @@
             <div class="picker-grid" id="icon-picker"></div>
             
             <button class="primary" onclick="saveBudget()">Save Changes</button>
-            <div style="text-align: center; margin-top: 10px;">
+            <div style="text-align: center; justify-content: center; margin-top: 12px;">
                 <button class="btn-text-del" id="delete-btn" onclick="deleteBudget()">Delete Category</button>
             </div>
         </div>
